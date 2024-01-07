@@ -11,3 +11,8 @@ resource "aws_iam_role" "AthenaWorkgroupUserRole" {
     }]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "AthenaWorkgroupPermissions" {
+  policy_arn = aws_iam_policy.AthenaWorkgroupPermissions.arn
+  role       = aws_iam_role.AthenaWorkgroupUserRole.name
+}
