@@ -82,14 +82,14 @@ data "aws_iam_policy_document" "AthenaWorkgroupPermissions" {
     resources = ["${aws_s3_bucket.athena.arn}/limited-wg/*"]
   }
 
-  statement {
+  /* statement {
     effect = "Allow"
     actions = [
       "s3:GetObject",
       "s3:ListMultipartUploadParts"
     ]
     resources = ["${aws_s3_bucket.data-source.arn}/*"]
-  }
+  } */
 }
 
 resource "aws_iam_policy" "AthenaWorkgroupPermissions" {
