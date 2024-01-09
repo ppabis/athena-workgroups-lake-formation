@@ -1,8 +1,3 @@
-data "aws_glue_catalog_table" "cloudfront_logs" {
-  database_name = "default"
-  name          = "cloudfront_logs"
-}
-
 data "aws_iam_policy_document" "LakeFormationGlueTablesAccess" {
   statement {
     effect = "Allow"
