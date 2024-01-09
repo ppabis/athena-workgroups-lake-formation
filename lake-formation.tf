@@ -19,3 +19,8 @@ resource "aws_lakeformation_permissions" "TestRoleSelect" {
     name          = data.aws_glue_catalog_table.cloudfront_logs.name
   }
 }
+
+resource "aws_cloudformation_stack" "LFDataFilter" {
+  name          = "LFDataFilter"
+  template_body = file("data-filter.yml")
+}

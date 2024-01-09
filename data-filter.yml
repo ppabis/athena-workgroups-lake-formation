@@ -1,0 +1,12 @@
+---
+Resources:
+  URIFilter:
+    Type: AWS::LakeFormation::DataCellsFilter
+    Properties:
+      TableCatalogId: !Ref AWS::AccountId
+      DatabaseName: "default"
+      TableName: "cloudfront_logs"
+      Name: "cloudfront_logs_uri_filter"
+      RowFilter:
+        FilterExpression: "uri = '/test-image-2.jpeg'"
+      ColumnNames: ["date", "time", "method", "uri"]
