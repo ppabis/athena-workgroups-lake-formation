@@ -1,11 +1,37 @@
 ---
+Parameters:
+  TestRolePrincipal:
+    Type: String
+    Description: IAM role to manage permissions for
+  DatabaseName:
+    Type: String
+    Description: Name of the database
+    Default: "default"
+  TableName:
+    Type: String
+    Description: Name of the table
+
 Resources:
+  TestRoleSelect:
+    Type: AWS::LakeFormation::PrincipalPermissions
+    Properties:
+      Principal:
+        DataLakePrincipalIdentifier: !Ref TestRolePrincipal
+      Permissions: ["SELECT"]
+      PermissionsWithGrantOption: []
+      Resource:
+        DataCellsFilter:
+          TableCatalogId: !Ref AWS::AccountId
+          DatabaseName: !Ref DatabaseName
+          TableName: !Ref TableName
+          Name: !Select [ "3", !Split ["|", !Ref URIFilter] ]
+
   URIFilter:
     Type: AWS::LakeFormation::DataCellsFilter
     Properties:
       TableCatalogId: !Ref AWS::AccountId
-      DatabaseName: "default"
-      TableName: "cloudfront_logs"
+      DatabaseName: !Ref DatabaseName
+      TableName: !Ref TableName
       Name: "cloudfront_logs_uri_filter"
       RowFilter:
         FilterExpression: "uri = '/test-image-2.jpeg'"

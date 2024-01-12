@@ -11,16 +11,12 @@ data "aws_glue_catalog_table" "cloudfront_logs" {
   name          = "cloudfront_logs"
 }
 
-resource "aws_lakeformation_permissions" "TestRoleSelect" {
-  permissions = ["SELECT"]
-  principal   = aws_iam_role.AthenaWorkgroupUserRole.arn
-  table {
-    database_name = data.aws_glue_catalog_table.cloudfront_logs.database_name
-    name          = data.aws_glue_catalog_table.cloudfront_logs.name
-  }
-}
-
 resource "aws_cloudformation_stack" "LFDataFilter" {
   name          = "LFDataFilter"
   template_body = file("data-filter.yml")
+  parameters = {
+    TestRolePrincipal = aws_iam_role.AthenaWorkgroupUserRole.arn
+    DatabaseName      = data.aws_glue_catalog_table.cloudfront_logs.database_name
+    TableName         = data.aws_glue_catalog_table.cloudfront_logs.name
+  }
 }
